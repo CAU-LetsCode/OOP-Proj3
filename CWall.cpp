@@ -7,6 +7,8 @@
 #define M_HEIGHT 0.01
 #define DECREASE_RATE 0.9982
 
+const float CWall::LOSS_RATIO = 0.006;
+
 CWall::CWall(void)
 {
     D3DXMatrixIdentity(&m_mLocal);
@@ -55,12 +57,14 @@ void CWall::draw(IDirect3DDevice9* pDevice, const D3DXMATRIX& mWorld)
 bool CWall::hasIntersected(CSphere& ball)
 {
     // Insert your code here.
+    
     return false;
 }
 
 void CWall::hitBy(CSphere& ball)
 {
     // Insert your code here.
+    
 }
 
 void CWall::setPosition(float x, float y, float z)
@@ -80,4 +84,4 @@ float CWall::getHeight(void) const { return M_HEIGHT; }
 
 void CWall::setLocalTransform(const D3DXMATRIX& mLocal) { m_mLocal = mLocal; }
 
-    
+

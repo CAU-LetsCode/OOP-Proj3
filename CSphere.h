@@ -3,12 +3,16 @@
 
 #include "d3dUtility.h"
 
-class CSphere {
+
+class CSphere 
+{
 private:
 	float					center_x, center_y, center_z;
 	float                   m_radius;
 	float					m_velocity_x;
 	float					m_velocity_z;
+
+	float pre_center_x, pre_center_z;
 
 	D3DXMATRIX              m_mLocal;
 	D3DMATERIAL9            m_mtrl;
@@ -32,6 +36,9 @@ public:
 	const D3DXMATRIX& getLocalTransform(void) const;
 	void setLocalTransform(const D3DXMATRIX& mLocal);
 	D3DXVECTOR3 getCenter(void) const;
+	D3DXVECTOR3 getPosition() const;
+	void adjustPosition(CSphere& ball);
+	void setPosition(float x, float y, float z);
 };
 
 #endif

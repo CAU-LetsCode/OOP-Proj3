@@ -17,6 +17,7 @@
 #include <cstdio>
 #include <cassert>
 
+#include "CObject.h"
 #include "CSphere.h"
 #include "CWall.h"
 #include "CLight.h"
