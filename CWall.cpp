@@ -1,6 +1,7 @@
 #include "CWall.h"
 #include "CSphere.h"
-
+#include <iostream>
+using namespace std;
 
 #define M_RADIUS 0.21   // ball radius
 #define PI 3.14159265
@@ -17,6 +18,23 @@ CWall::CWall(void)
     m_depth = 0;
     m_pBoundMesh = NULL;
 }
+
+CWall::CWall(float iwidth, float iheight, float idepth, D3DXCOLOR color) {
+    D3DXMatrixIdentity(&m_mLocal);
+    ZeroMemory(&m_mtrl, sizeof(m_mtrl));
+
+    m_mtrl.Ambient = color;
+    m_mtrl.Diffuse = color;
+    m_mtrl.Specular = color;
+    m_mtrl.Emissive = d3d::BLACK;
+    m_mtrl.Power = 5.0f;
+    m_width = iwidth;
+    m_height = iheight;
+    m_depth = idepth;
+
+    m_pBoundMesh = nullptr;
+}
+
 CWall::~CWall(void) {}
 
 bool CWall::create(IDirect3DDevice9* pDevice, float ix, float iz, float iwidth, float iheight, float idepth, D3DXCOLOR color = d3d::WHITE)
@@ -54,24 +72,15 @@ void CWall::draw(IDirect3DDevice9* pDevice, const D3DXMATRIX& mWorld)
     m_pBoundMesh->DrawSubset(0);
 }
 
-bool CWall::hasIntersected(CSphere& ball)
-{
-    // Insert your code here.
-    
-    return false;
-}
-
-void CWall::hitBy(CSphere& ball)
-{
-    // Insert your code here.
-    
-}
 
 void CWall::setPosition(float x, float y, float z)
 {
     D3DXMATRIX m;
-    this->m_x = x;
-    this->m_z = z;
+    /*this->m_x = x;
+    this->m_z = z;*/
+    this->center_x = x;
+    this->center_y = y;
+    this->center_z = z;
 
     D3DXMatrixTranslation(&m, x, y, z);
     setLocalTransform(m);
@@ -79,9 +88,23 @@ void CWall::setPosition(float x, float y, float z)
 
 float CWall::getHeight(void) const { return M_HEIGHT; }
 
-
-
-
 void CWall::setLocalTransform(const D3DXMATRIX& mLocal) { m_mLocal = mLocal; }
 
+void CWall::setType(int type) { type = type; }
+
+void CWall::adjustPosition(CSphere& ball)
+{
+    //보간법으로 근사하여 충돌 시점의 좌표로 이동함.
+    ball.setPosition((ball.getPosition().x + ball.getPreCenter_x()) / 2, ball.getPosition().y, (ball.getPosition().z + ball.getPreCenter_z()) / 2);
+    if (this->hasIntersected(ball))
+    {
+        ball.setPosition(ball.getPreCenter_x(), ball.getPosition().y, ball.getPreCenter_z());
+    }
+}
+
+D3DXVECTOR3 CWall::getPosition() const
+{
+    D3DXVECTOR3 org(center_x, center_y, center_z);
+    return org;
+}
 

@@ -104,7 +104,7 @@ void CSphere::hitBy(CSphere& ball)
 void CSphere::ballUpdate(float timeDiff)
 {
 	const float TIME_SCALE = 3.3;
-	D3DXVECTOR3 cord = this->getCenter();
+	D3DXVECTOR3 cord = this->getPosition();
 	double vx = abs(this->getVelocity_X());
 	double vz = abs(this->getVelocity_Z());
 
@@ -167,11 +167,7 @@ void CSphere::setCenter(float x, float y, float z)
 float CSphere::getRadius(void)  const { return (float)(M_RADIUS); }
 const D3DXMATRIX& CSphere::getLocalTransform(void) const { return m_mLocal; }
 void CSphere::setLocalTransform(const D3DXMATRIX& mLocal) { m_mLocal = mLocal; }
-D3DXVECTOR3 CSphere::getCenter(void) const
-{
-	D3DXVECTOR3 org(center_x, center_y, center_z);
-	return org;
-}
+
 
 D3DXVECTOR3 CSphere::getPosition() const
 {
@@ -202,4 +198,14 @@ void CSphere::setPosition(float x, float y, float z)
 
 	D3DXMatrixTranslation(&m, x, y, z);
 	this->setLocalTransform(m);
+}
+
+double CSphere::getPreCenter_x() const
+{
+	return this->pre_center_x;
+}
+
+double CSphere::getPreCenter_z() const
+{
+	return this->pre_center_z;
 }

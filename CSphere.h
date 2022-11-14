@@ -4,6 +4,7 @@
 #include "d3dUtility.h"
 
 
+
 class CSphere 
 {
 private:
@@ -35,10 +36,11 @@ public:
 	float getRadius(void) const;
 	const D3DXMATRIX& getLocalTransform(void) const;
 	void setLocalTransform(const D3DXMATRIX& mLocal);
-	D3DXVECTOR3 getCenter(void) const;
 	D3DXVECTOR3 getPosition() const;
 	void adjustPosition(CSphere& ball);
 	void setPosition(float x, float y, float z);
+	double CSphere::getPreCenter_x() const;
+	double CSphere::getPreCenter_z() const;
 };
 
 #endif
